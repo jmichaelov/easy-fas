@@ -6,7 +6,7 @@ This repository contains a command-line tools that allows a user to easily calcu
 ## Forward Association Strength
 The Forward Association Strength (FAS) of a word is a metric of how likely it is that someone will respond with a given word when presented with a specific cue word in a word association task—i.e., when asked to produce the first word that comes to mind. It is calculated based on the responses of a norming study. For example, if 100 people are presented with the cue word *one* and 75 of them respond with *two*, the FAS of the response *two* for the cue *one* is given by:
 
-![](https://latex.codecogs.com/svg.image?\color{white}\frac{75}{100}=0.75)
+![](https://latex.codecogs.com/svg.image?\color{lightgray}\frac{75}{100}=0.75)
 
 
 ## Current Implementation
