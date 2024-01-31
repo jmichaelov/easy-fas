@@ -10,6 +10,8 @@ import json
 import numpy as np
 import argparse
 import pandas as pd
+from tqdm import tqdm
+import math
 
 parser = argparse.ArgumentParser(description='Calculates forward association strength')
 
@@ -26,9 +28,18 @@ args = parser.parse_args()
     
 
 def get_fas(dict_list,cue,response):
+
+    if type(cue)!=str:
+        print("Issue with cue: {}. Ignoring".format(cue))
+        return None
+
+    if type(response)!=str:
+        print("Issue with response: {}. Ignoring".format(response))
+        return None
+        
     cue = cue.upper()
     response = response.upper()
-    
+
     if cue==response:
         fas = 1
     
@@ -56,7 +67,8 @@ def get_fas_file(dict_list,cue_response_input_file):
     
     csv_length = input_csv.shape[0]
     fas_dataframe = pd.DataFrame(columns = ["Cue","Response","FAS"])
-    for i in range(csv_length):
+    fas_dataframe.to_csv(output_name,mode="w",index=False)
+    for i in tqdm(range(csv_length),position=0):
         cue = input_csv.loc[i,"Cue"]
         response = input_csv.loc[i,"Response"]
         fas = get_fas([usffan_dict],cue,response)
@@ -64,8 +76,9 @@ def get_fas_file(dict_list,cue_response_input_file):
             "Cue":[cue],
             "Response":[response],
             "FAS":[fas]})
-        fas_dataframe = pd.concat([fas_dataframe,current_df_row],ignore_index=True)
-    fas_dataframe.reset_index().to_csv(output_name,index=False)
+        current_df_row.to_csv(output_name,index=False,header=False,mode="a")    
+    #     fas_dataframe = pd.concat([fas_dataframe,current_df_row],ignore_index=True)
+    # fas_dataframe.reset_index().to_csv(output_name,index=False)
     print("Successfully produced output file: {}".format(output_name))
         
 
